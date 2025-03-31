@@ -1,4 +1,5 @@
-export interface BusinessState {
+// business state type
+interface BusinessState {
     _id: string;
     userEmail: string;
     name: string;
@@ -17,3 +18,4 @@ export interface BusinessState {
     updatedAt?: string;
     __v?: number;
 }
+   

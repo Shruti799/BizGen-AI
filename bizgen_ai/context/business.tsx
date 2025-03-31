@@ -1,7 +1,8 @@
 "use client";
-import React, { createContext, useContext, useState, ReactNode } from
+import React, { createContext, useContext, useState, ReactNode, useEffect } from
 "react";
 import { BusinessState } from "@/utils/types/business";
+import { useClerk, useUser } from "@clerk/nextjs";
 
 // default state
 const initialState: BusinessState = {
@@ -42,6 +43,17 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
  const [business, setBusiness] = useState<BusinessState>(initialState);
  const [loading, setLoading] = useState(false);
 
+ // hooks
+ const { openSignIn } = useClerk();
+ const { isSignedIn } = useUser();
+
+ useEffect(() => {
+    const savedBusiness = localStorage.getItem("business");
+    if (savedBusiness) {
+      setBusiness(JSON.parse(savedBusiness));
+    }
+ }, []);
+
  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     // if (name === "logo" && files && files[0]) {
@@ -62,10 +74,10 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
     e.preventDefault();
     console.log(business);
 
-    // if (!isSignedIn) {
-    //   openSignIn();
-    //   return;
-    // } else {
+    if (!isSignedIn) {
+      openSignIn();
+      return;
+    } else {
     //   try {
     //     setLoading(true);
     //     const savedBusiness = await saveBusinessToDb(business);
@@ -82,7 +94,7 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
     //   } finally {
     //     setLoading(false);
     //   }
-    // }
+    }
   };
 
   

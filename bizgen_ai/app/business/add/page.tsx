@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BusinessState } from "@/utils/types/business";
 import { useBusiness } from "@/context/business";
+import PreviewCard from "@/components/business/preview/preview-card";
 
 
 // input fields type
@@ -68,8 +69,8 @@ export default function AddBusinessPage() {
    return (
       <div className="flex flex-col lg:flex-row h-screen">
       <div className="flex flex-col lg:w-1/2 p-4 lg:order-last lg:flex
-     lg:justify-center lg:items-center overflow-y-auto">
-      preview
+     lg:justify-center lg:items-center overflow-y-auto min-h-[354px]">
+          <PreviewCard business={business} />
       </div>
       <div className="flex flex-col lg:w-1/2 p-4 lg:order-first lg:flex
       overflow-y-auto">

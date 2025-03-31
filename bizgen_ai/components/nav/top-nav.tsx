@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { currentUser } from "@clerk/nextjs/server";
 // import { Toaster } from "react-hot-toast";
-// import AddBusinessButton from "@/components/buttons/add-business-button";
+ import AddBusinessButton from "@/components/buttons/add-business-button";
 // import SearchButton from "@/components/buttons/search-button";
 
 export default async function TopNav() {
@@ -54,7 +54,7 @@ export default async function TopNav() {
             </MenubarTrigger>
           </MenubarMenu>
 
-          {/* <AddBusinessButton /> */}
+          <AddBusinessButton /> 
 
           {user && (
             <MenubarMenu>
