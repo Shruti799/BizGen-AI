@@ -56,9 +56,10 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
 
  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
-    // if (name === "logo" && files && files[0]) {
-    //   await handleLogo(files, name);
-    // } else {
+    if (name === "logo" && files && files[0]) {
+        console.log("uploaded");
+      //await handleLogo(files, name);
+    } else {
       setBusiness((prevBusiness: BusinessState) => {
         const updatedBusiness = { ...prevBusiness, [name]: value };
 
@@ -67,7 +68,7 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
 
         return updatedBusiness;
       });
-    //}
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,22 +79,22 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
       openSignIn();
       return;
     } else {
-    //   try {
-    //     setLoading(true);
-    //     const savedBusiness = await saveBusinessToDb(business);
-    //     setBusiness(savedBusiness);
-    //     // clear local storage
-    //     localStorage.removeItem("business");
-    //     // nofity user
-    //     toast.success("🎉 Business saved successfully");
-    //     // redirec to edit page
-    //     router.push(`/dashboard/business/edit/${savedBusiness._id}`);
-    //   } catch (err: any) {
-    //     console.error(err);
-    //     toast.error("❌ Failed to save business");
-    //   } finally {
-    //     setLoading(false);
-    //   }
+      try {
+        setLoading(true);
+        //const savedBusiness = await saveBusinessToDb(business);
+        //setBusiness(savedBusiness);
+        // clear local storage
+        localStorage.removeItem("business");
+        // nofity user
+       // toast.success("🎉 Business saved successfully");
+        // redirec to edit page
+       // router.push(`/dashboard/business/edit/${savedBusiness._id}`);
+      } catch (err: any) {
+        console.error(err);
+       // toast.error("❌ Failed to save business");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

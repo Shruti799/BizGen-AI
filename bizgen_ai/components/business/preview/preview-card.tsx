@@ -29,12 +29,13 @@ return (
         <div className="w-16 h-16 relative overflow-hidden rounded-md">
           {business?.logo ? (
             <Image
-              src={business.logo}
+              src={business.logo || "/cutie.jpg"}
               alt={business.name}
               layout="fill"
               objectFit="cover"
             />
           ) : (
+            
             <div className="w-full h-full bg-gray-300 flex items-center justify-center">
               <span className="text-gray-500 text-xs">No Logo</span>
             </div>

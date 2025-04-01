@@ -1,5 +1,5 @@
 // business state type
-interface BusinessState {
+export interface BusinessState {
     _id: string;
     userEmail: string;
     name: string;
