@@ -6,12 +6,12 @@ import { useBusiness } from "@/context/business";
 import { useRouter } from "next/navigation";
 
 export default function AddBusinessButton() {
-  //const { setBusiness, initialState } = useBusiness();
+  const { setBusiness, initialState } = useBusiness();
 
   const router = useRouter();
 
   const handleClick = () => {
-    //setBusiness(initialState);
+    setBusiness(initialState);
     router.push("/business/add");
   };
 

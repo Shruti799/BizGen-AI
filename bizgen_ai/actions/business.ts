@@ -7,6 +7,43 @@ import { nanoid } from "nanoid";
 import slugify from "slugify";
 
 
+const checkOwernship = async (businessId: string) => {
+   try {
+     await db();
+ 
+     // get the current user
+     const user = await currentUser();
+     const userEmail = user?.emailAddresses[0]?.emailAddress;
+ 
+     // admin check
+     const isAdmin = user?.privateMetadata?.role === "admin";
+ 
+     if (!userEmail) {
+       throw new Error("User not found");
+     }
+ 
+     // find business by id
+     const business = await Business.findById(businessId);
+ 
+     if (!business) {
+       throw new Error("Business not found");
+     }
+ 
+     // check if the business belongs to the user
+     if (business.userEmail !== userEmail) {
+       throw new Error("You are not authorized to perform this action");
+     }
+     return true;
+ 
+     // allow access if the user is an admin or the owner of the business
+     if (isAdmin || business.userEmail === userEmail) {
+       return true;
+     }
+   } catch (err: any) {
+     throw new Error(err);
+   }
+};
+
 export const saveBusinessToDb = async (data: BusinessState) => {
     try {
        db();
@@ -41,14 +78,32 @@ export const getUserBusinessesFromDb = async () => {
 
 
 export const getBusinessFromDb = async (_id: string) => {
-   try {
-     db();
+   try{
+     await db();
      const business = await Business.findById(_id);
-     console.log("single business", business);
      return JSON.parse(JSON.stringify(business));
-   }catch (err: any) {
-      throw new Error(err);
+   }catch (err: any){
+       throw new Error(err);
    }
-  };
+};
+
+
+export const updateBusinessInDb = async (data: BusinessState) => {
+   try {
+     await db();
+     const { _id, ...rest } = data;
+     // check if the user owns the business
+     await checkOwernship(_id);
+ 
+     const business = await Business.findByIdAndUpdate(_id, rest, {
+       new: true,
+     });
+     return JSON.parse(JSON.stringify(business));
+   } catch (err: any) {
+     throw new Error(err);
+   }
+};
+ 
   
-   
+
+

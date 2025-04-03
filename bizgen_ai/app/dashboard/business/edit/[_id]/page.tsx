@@ -1,14 +1,6 @@
-"use client";
 import React from "react";
-import { useBusiness } from "@/context/business";
-
+import BusinessForm from "@/components/business/forms/business-form";
 
 export default function BusinessEditPage() {
-   const { business } = useBusiness();
-
-   return (
-    <div>
-       <pre>{JSON.stringify(business, null, 4)}</pre>
-    </div>
-   );
+  return <BusinessForm />;
 }
