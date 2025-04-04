@@ -140,6 +140,38 @@ export const deleteBusinessFromDb = async (_id: string) => {
   }
 };
 
+export const getLatestBusinessesFromDb = async (
+  page: number,
+  limit: number
+  ) => {
+  try {
+    await db();
+
+    const [businesses, totalCount] = await Promise.all([
+      Business.find({ published: true })
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit),
+      Business.countDocuments({ published: true }),
+    ]);
+
+    return { businesses: JSON.parse(JSON.stringify(businesses)), totalCount };
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const getBusinessBySlugFromDb = async (slug: string) => {
+  try {
+    await db();
+    const business = await Business.findOne({ slug });
+    return JSON.parse(JSON.stringify(business));
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+
 
  
   

@@ -9,7 +9,7 @@ import DescriptionModal from "@/components/modals/description-modal";
 import Image from "next/image";
 
 
-export default function PreviewCard({ business }: { business: BusinessState }) {
+export default function BusinessCard({ business }: { business: BusinessState }) {
     const {
        openDescriptionModal,
        setOpenDescriptionModal,
@@ -54,15 +54,9 @@ return (
 
       <CardContent>
         <div
-          className="text-sm mb-4 line-clamp-3"
-          onClick={() =>
-            !isDashboardPage && setOpenDescriptionModal(!openDescriptionModal)
-          }
-        >
-          {business?.description ? (
+          className="text-sm mb-4 line-clamp-3">
+          {business?.description && (
             <div dangerouslySetInnerHTML={{ __html: business.description }} />
-          ) : (
-            "Ai powered business description goes here..."
           )}
         </div>
 
@@ -74,38 +68,6 @@ return (
           <InfoItem icon={Clock} text={business?.hours || "Hours"} />
         </div>
 
-        <div className="flex justify-end items-center space-x-2 text-xs text-gray-500">
-          <div
-            onClick={isEditPage ? togglePublished : undefined}
-            className="flex cursor-pointer"
-          >
-            {loading && <Loader2Icon size={14} className="animate-spin mr-1" />}
-            {business?.published ? (
-              <span className="text-green-500">Published</span>
-            ) : (
-              <span className="text-red-500">Unpublished</span>
-            )}
-          </div>
-
-          {isAdmin && (
-            <div
-              onClick={() => {
-                const answer = confirm(
-                  "Are you sure you want to delete this business?"
-                );
-                if (answer) {
-                  deleteBusiness();
-                }
-              }}
-              className="flex cursor-pointer bg-gray-100 p-2 border border-gray-300"
-            >
-              {loading && (
-                <Loader2Icon size={14} className="animate-spin mr-1" />
-              )}{" "}
-              <span className="text-red-500">Delete</span>
-            </div>
-          )}
-        </div>
       </CardContent>
 
       <DescriptionModal />
@@ -122,4 +84,3 @@ function InfoItem({ icon: Icon, text }: { icon: any; text: string }) {
     );
 }
   
-

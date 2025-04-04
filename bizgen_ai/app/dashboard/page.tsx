@@ -3,23 +3,23 @@ import React from "react";
 import { useBusiness } from "@/context/business";
 import PreviewCard from "@/components/business/preview/preview-card";
 import Link from "next/link";
-//import SkeletonCard from "@/components/business/cards/skeleton-card";
+import SkeletonCard from "@/components/business/cards/skeleton-card";
 
 export default function Dashboard() {
   const { businesses } = useBusiness();
 
-//   if (!businesses?.length) {
-//     return (
-//       <div>
-//         <p className="text-center my-5">Loading...</p>
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-5 px-5">
-//           <SkeletonCard />
-//           <SkeletonCard />
-//           <SkeletonCard />
-//         </div>
-//       </div>
-//     );
-//   }
+  if (!businesses?.length) {
+    return (
+      <div>
+        <p className="text-center my-5">Loading...</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-5 px-5">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-5">
