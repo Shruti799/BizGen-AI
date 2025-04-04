@@ -7,9 +7,9 @@ import {
     saveBusinessToDb,
     getUserBusinessesFromDb,
     getBusinessFromDb,
-    // updateBusinessInDb,
-    // togglePublishdInDb,
-    // deleteBusinessFromDb,
+    updateBusinessInDb,
+    togglePublishdInDb,
+    deleteBusinessFromDb,
   } from "@/actions/business";
 import { aiGenerateBusinessDescription } from "@/actions/ai";
 import { handleLogoAction } from "@/actions/cloudinary";
@@ -50,6 +50,13 @@ interface BusinessContextType {
   logoUploading: boolean;
   generateBusinessDescription: () => void;
   generateDescriptionLoading: boolean;
+  updateBusiness: () => void;
+  isEditPage: boolean;
+  openDescriptionModal: boolean;
+  setOpenDescriptionModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isDashboardPage: boolean;
+  togglePublished: () => void;
+  deleteBusiness: () => void;
 }
 
 // create context
@@ -64,6 +71,10 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
  const [businesses, setBusinesses] = useState<BusinessState[]>([]);
  const [logoUploading, setLogoUploading] = useState<boolean>(false);
  const [generateDescriptionLoading, setGenerateDescriptionLoading] = useState<boolean>(false);
+
+ // modal state
+ const [openDescriptionModal, setOpenDescriptionModal] = useState<boolean>(false);
+
 
  // hooks
  const { openSignIn } = useClerk();
@@ -231,13 +242,90 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
       } finally {
         setGenerateDescriptionLoading(false);
       }
-    };
+  };
+
+
+  const updateBusiness = async () => {
+    setLoading(true);
+
+    try {
+      const updatedBusiness = await updateBusinessInDb(business);
+      setBusiness(updatedBusiness);
+      // clear local storage
+      localStorage.removeItem("business");
+      // nofity user
+      toast.success("🎉 Business updated successfully");
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Failed to update business");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const togglePublished = async () => {
+      setLoading(true);
+  
+      try {
+        const updatedBusiness = await togglePublishdInDb(_id.toString());
+  
+        setBusiness((prevBusiness) => ({
+          ...prevBusiness,
+          published: updatedBusiness.published,
+        }));
+  
+        if (updatedBusiness.published) {
+          toast.success("🎉 Business published");
+        } else {
+          toast.success("🎉 Business unpublished");
+        }
+      } catch (err: any) {
+        console.error(err);
+        toast.error("Failed to toggle published");
+      } finally {
+        setLoading(false);
+      }
+  };
+
+  const deleteBusiness = async () => {
+      setLoading(true);
+  
+      try {
+        await deleteBusinessFromDb(_id.toString());
+        toast.success("🎉 Business deleted");
+        router.push("/dashboard/admin");
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete business");
+      } finally {
+        setLoading(false);
+      }
+  };
   
 
   
  return (
  <BusinessContext.Provider
- value={{ business, setBusiness, loading, setLoading, handleChange, handleSubmit, businesses, setBusinesses, initialState, logoUploading, generateBusinessDescription, generateDescriptionLoading}}
+ value={{ business, 
+    setBusiness, 
+    loading, 
+    setLoading, 
+    handleChange, 
+    handleSubmit, 
+    businesses, 
+    setBusinesses, 
+    initialState, 
+    logoUploading, 
+    generateBusinessDescription,
+    generateDescriptionLoading, 
+    updateBusiness, 
+    isEditPage, 
+    isDashboardPage,
+    openDescriptionModal,
+    setOpenDescriptionModal,
+    togglePublished,
+    deleteBusiness,
+ }}
  >
  {children}
  </BusinessContext.Provider>

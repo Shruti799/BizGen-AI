@@ -11,14 +11,14 @@ import Image from "next/image";
 
 export default function PreviewCard({ business }: { business: BusinessState }) {
     const {
-    //   openDescriptionModal,
-    //   setOpenDescriptionModal,
-    //   isDashboardPage,
-    //   togglePublished,
-    //   isEditPage,
-      loading,
-      //deleteBusiness,
-} = useBusiness();
+       openDescriptionModal,
+       setOpenDescriptionModal,
+       isDashboardPage,
+       togglePublished,
+       isEditPage,
+       loading,
+       deleteBusiness,
+}   = useBusiness();
   
 const { user } = useUser();
 const isAdmin = user?.publicMetadata?.role === "admin";
@@ -55,9 +55,9 @@ return (
       <CardContent>
         <div
           className="text-sm mb-4 line-clamp-3"
-        //   onClick={() =>
-        //     !isDashboardPage && setOpenDescriptionModal(!openDescriptionModal)
-        //   }
+          onClick={() =>
+            !isDashboardPage && setOpenDescriptionModal(!openDescriptionModal)
+          }
         >
           {business?.description ? (
             <div dangerouslySetInnerHTML={{ __html: business.description }} />
@@ -76,7 +76,7 @@ return (
 
         <div className="flex justify-end items-center space-x-2 text-xs text-gray-500">
           <div
-            //onClick={isEditPage ? togglePublished : undefined}
+            onClick={isEditPage ? togglePublished : undefined}
             className="flex cursor-pointer"
           >
             {loading && <Loader2Icon size={14} className="animate-spin mr-1" />}
@@ -93,9 +93,9 @@ return (
                 const answer = confirm(
                   "Are you sure you want to delete this business?"
                 );
-                // if (answer) {
-                //   deleteBusiness();
-                // }
+                if (answer) {
+                  deleteBusiness();
+                }
               }}
               className="flex cursor-pointer"
             >

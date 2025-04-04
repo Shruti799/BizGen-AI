@@ -124,3 +124,29 @@
   }
 }
 
+/* Custom CSS for Quill Editor */
+.quill .ql-toolbar {
+  border: none !important;
+  box-shadow: none !important;
+}
+ 
+.quill .ql-container {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+}
+ 
+.quill .ql-editor {
+  border: none !important;
+}
+ 
+.quill .ql-toolbar {
+  border-radius: 8px 8px 0 0 !important;
+  border-bottom: none !important;
+}
+ 
+.ql-bubble {
+  border: none !important;
+  border-radius: 0 !important;
+}
+

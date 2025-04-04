@@ -68,6 +68,8 @@ export default function AddBusinessPage() {
       logoUploading,
       generateBusinessDescription,
       generateDescriptionLoading,
+      isEditPage,
+      updateBusiness,
     } = useBusiness();
 
    return (
@@ -129,7 +131,7 @@ export default function AddBusinessPage() {
          </Button>
 
 
-         <Button onClick={handleSubmit} type="submit" className="my-5"
+         <Button onClick={isEditPage ? updateBusiness : handleSubmit} type="submit" className="my-5"
          disabled={
             !business?.name ||
             !business?.category ||

@@ -103,6 +103,44 @@ export const updateBusinessInDb = async (data: BusinessState) => {
      throw new Error(err);
    }
 };
+
+export const togglePublishdInDb = async (_id: string) => {
+  try {
+    await db();
+
+    try {
+      await checkOwernship(_id);
+
+      const business = await Business.findById(_id);
+      if (!business) {
+        throw new Error("Business not found");
+      }
+
+      business.published = !business.published;
+      await business.save();
+      return JSON.parse(JSON.stringify(business));
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const deleteBusinessFromDb = async (_id: string) => {
+  try {
+    await db();
+    // check if the user owns the business
+    await checkOwernship(_id);
+
+    const business = await Business.findByIdAndDelete(_id);
+    return JSON.parse(JSON.stringify(business));
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+
  
   
 
