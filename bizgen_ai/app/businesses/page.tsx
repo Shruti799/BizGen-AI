@@ -10,17 +10,19 @@ export const metadata = {
   description: "Find local businesses in your area",
 };
 
-interface BusinessesPageProps {
-  searchParams: { page?: number };
-}
+// interface BusinessesPageProps {
+//   searchParams: { page?: number };
+// }
 
 
-export default async function Home({searchParams}: BusinessesPageProps){
+export default async function Home({searchParams}: {
+  searchParams: Promise<{ page?: string }>;
+}){
+
+  const { page: pageParam } = await searchParams;
 
   // '10' ensures the string is parsed as a decimal number
-  const page = searchParams?.page
-  ? parseInt(searchParams.page as unknown as string, 10)
-  : 1;
+  const page = pageParam ? parseInt(pageParam, 10) : 1;
   const limit = 3;
   const { businesses, totalCount } = await getLatestBusinessesFromDb(
   page,
