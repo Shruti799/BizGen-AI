@@ -4,11 +4,11 @@ import BusinessHighlightCard from "@/components/business/cards/business-highligh
 import CategoryAddressCard from "@/components/business/cards/category-address-card";
 import type { Metadata } from "next";
 
-interface BusinessPageProps {
-  params: {
-    slug: string;
-  };
-}
+// interface BusinessPageProps {
+//   params: {
+//     slug: string;
+//   };
+// }
 
 function stripHtmlAndTruncate(text: string, maxLength: number): string {
     // Remove HTML tags
@@ -23,7 +23,8 @@ function stripHtmlAndTruncate(text: string, maxLength: number): string {
       : cleanedText;
   }
   
-  export async function generateMetadata({ params }: BusinessPageProps) {
+  export async function generateMetadata({ params }:{ params: { slug: string } }
+  ): Promise<Metadata> {
     const business = await getBusinessBySlugFromDb(params.slug);
     const imageUrl = business?.logo || "/logo.png";
     const shortDescription = stripHtmlAndTruncate(business?.description, 160);
@@ -31,12 +32,15 @@ function stripHtmlAndTruncate(text: string, maxLength: number): string {
     return {
       title: `${business?.name} - ${business?.category}`,
       description: shortDescription,
+      alternates: {
+        canonical: `${process.env.DOMAIN}/business/${params?.slug}`,
+      },
       openGraph: {
         title: `${business?.name} - ${business?.category}`,
         description: shortDescription,
         type: "website",
         url: `${process.env.DOMAIN}/business/${params?.slug}`,
-        site_name: process.env.APP_NAME,
+        siteName: process.env.APP_NAME,
         images: [
           {
             url: imageUrl,
@@ -44,12 +48,12 @@ function stripHtmlAndTruncate(text: string, maxLength: number): string {
             type: "image/jpg",
           },
         ],
-        canonical: `${process.env.DOMAIN}/business/${params?.slug}`,
       },
     };
   }
   
-  export default async function BusinessPage({ params }: BusinessPageProps) {
+  export default async function BusinessPage({ params }: { params: { slug: string } }
+  ): Promise<Metadata> {
     const business = await getBusinessBySlugFromDb(params.slug);
   
     return (
