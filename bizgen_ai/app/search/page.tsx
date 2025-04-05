@@ -1,9 +1,6 @@
-// /app/search/page.tsx
-import dynamic from "next/dynamic";
+import SearchClient from "./SearchClient";
 import { Suspense } from "react";
 
-// Lazy load the client component to improve performance
-const SearchClient = dynamic(() => import("./SearchClient"), { ssr: false });
 
 export default function SearchPage() {
   return (
