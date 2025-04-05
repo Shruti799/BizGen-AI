@@ -6,16 +6,19 @@ import CategoryAddressCard from "@/components/business/cards/category-address-ca
 import Image from "next/image";
 import { Settings } from "lucide-react";
 
-interface BusinessesPageProps {
-  searchParams: { page?: number };
-}
+// interface BusinessesPageProps {
+//   searchParams: { page?: number };
+// }
 
 export default async function AdminDashboard({
   searchParams,
-}: BusinessesPageProps) {
-  const page = searchParams?.page
-    ? parseInt(searchParams.page as unknown as string, 10)
-    : 1;
+}:{
+  searchParams: Promise<{ page?: string }>;
+}) {
+
+  const { page: pageParam } = await searchParams;
+
+  const page = pageParam ? parseInt(pageParam, 10) : 1;
   const limit = 12;
 
   const { businesses, totalCount } = await getAllBusinessesFromDb(page, limit);
