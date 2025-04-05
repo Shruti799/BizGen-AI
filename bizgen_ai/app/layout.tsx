@@ -52,6 +52,18 @@ export default function RootLayout({
             </BusinessProvider>
 
            </ThemeProvider>
+
+           {/* Google tag (gtag.js)  */}
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC6ZZJ3K36"></script>
+          <script>
+             {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-SC6ZZJ3K36');
+            `}
+          </script>
+
          </body>
        </html>
     </ClerkProvider>
