@@ -12,6 +12,7 @@ import {
   Cpu,
 } from "lucide-react";
 import CategoryAddressCard from "@/components/business/cards/category-address-card";
+import { FaTwitter } from "react-icons/fa";
  
 export default function LandingPage() {
   return (
@@ -120,6 +121,32 @@ export default function LandingPage() {
       <div className="mt-8">
         <CategoryAddressCard />
       </div>
+
+      <footer className="mt-12 border-t pt-6 flex flex-col items-center bg-gray-50">
+        <p className="text-gray-700 text-sm">
+          Developed by{" "}
+        <a
+          href="https://x.com/Shruti_Aug2"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-black font-semibold hover:underline"
+        >
+          Shruti
+       </a>
+       </p>
+
+       <a
+         href="https://x.com/Shruti_Aug2"
+         target="_blank"
+         rel="noopener noreferrer"
+         className="flex items-center space-x-2 text-black font-semibold hover:underline mt-1"
+       >
+       <FaTwitter className="text-xl" />
+       <span>Twitter</span>
+      </a>
+     </footer>
+
+
     </div>
   );
 }
