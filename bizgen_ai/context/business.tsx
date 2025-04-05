@@ -84,7 +84,7 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
 
  const isDashboardPage = pathname === "/dashboard";
  const isEditPage = pathname.includes("/edit");
- const { _id } = useParams();
+ const  {_id}  = useParams();
 
  useEffect(() => {
     const savedBusiness = localStorage.getItem("business");
@@ -210,7 +210,7 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
 
   const getBusiness = async () => {
       try {
-        const business = await getBusinessFromDb(_id.toString());
+        const business = await getBusinessFromDb((_id as string).toString());
         setBusiness(business);
       } catch (err: any) {
         console.error(err);
@@ -267,7 +267,7 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(true);
   
       try {
-        const updatedBusiness = await togglePublishdInDb(_id.toString());
+        const updatedBusiness = await togglePublishdInDb((_id as string).toString());
   
         setBusiness((prevBusiness) => ({
           ...prevBusiness,
@@ -291,7 +291,7 @@ export const BusinessProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(true);
   
       try {
-        await deleteBusinessFromDb(_id.toString());
+        await deleteBusinessFromDb((_id as string).toString());
         toast.success("🎉 Business deleted");
         router.push("/dashboard/admin");
       } catch (err) {
