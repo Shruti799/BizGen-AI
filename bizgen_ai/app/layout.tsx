@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Local Business Directory",
+  title: "BizGen-AI",
   description: "Free for everyone",
 };
 
@@ -38,6 +38,12 @@ export default function RootLayout({
                enableSystem
                disableTransitionOnChange
              >
+            
+            <div className="fixed inset-0 z-[-1] bg-cover bg-center bg-no-repeat opacity-10 transition-opacity duration-300" style={{
+              backgroundImage: 'url("/backgroundimage.jpg")',
+            }} />
+
+
             <BusinessProvider>
               <header className="fixed top-0 left-0 right-0 z-50 opacity-90">
                 <TopNav />

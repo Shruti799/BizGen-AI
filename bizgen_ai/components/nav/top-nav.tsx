@@ -14,12 +14,12 @@ import {
 import { currentUser } from "@clerk/nextjs/server";
 import { Toaster } from "react-hot-toast";
 import AddBusinessButton from "@/components/buttons/add-business-button";
-// import SearchButton from "@/components/buttons/search-button";
+import SearchButton from "@/components/buttons/search-button";
 
 export default async function TopNav() {
   // hooks
    const user = await currentUser();
-//   const isAdmin = user?.privateMetadata?.role === "admin";
+   const isAdmin = user?.privateMetadata?.role === "admin";
 
   return (
     <>
@@ -38,14 +38,14 @@ export default async function TopNav() {
           </MenubarMenu>
         </div>
 
-        {/* <div className="hidden md:flex flex-grow justify-center px-4 max-w-3xl">
+        <div className="hidden md:flex flex-grow justify-center px-4 max-w-3xl">
           <SearchButton />
-        </div> */}
+        </div>
 
         <div className="flex flex-grow items-center justify-end gap-1">
           <MenubarMenu>
             <MenubarTrigger className="text-base font-normal">
-              <Link href="/business/add">
+              <Link href="/businesses">
                 <span className="flex items-center">
                   <Handshake size={16} className="mr-2" />
                   <span>Businesses</span>
@@ -69,7 +69,7 @@ export default async function TopNav() {
             </MenubarMenu>
           )} 
 
-          {/* {isAdmin && (
+          {isAdmin && (
             <MenubarMenu>
               <MenubarTrigger className="text-base font-normal">
                 <Link href="/dashboard/admin">
@@ -80,7 +80,7 @@ export default async function TopNav() {
                 </Link>
               </MenubarTrigger>
             </MenubarMenu>
-          )}*/}
+          )}
 
           <SignedOut>
             <span className="flex items-center">
@@ -102,9 +102,9 @@ export default async function TopNav() {
       </Menubar>
 
       {/* search for mobile screens */}
-      {/* <div className="md:hidden w-full flex justify-center px-4 my-1">
+      <div className="md:hidden w-full flex justify-center px-4 my-1">
         <SearchButton />
-      </div> */}
+      </div>
     </>
   );
 }

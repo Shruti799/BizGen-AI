@@ -1,6 +1,7 @@
 import { getBusinessBySlugFromDb } from "@/actions/business";
 import SingleBusinessCard from "@/components/business/cards/single-business-card";
 import BusinessHighlightCard from "@/components/business/cards/business-highlight-card";
+import CategoryAddressCard from "@/components/business/cards/category-address-card";
 
 interface BusinessPageProps {
   params: {
@@ -62,9 +63,9 @@ function stripHtmlAndTruncate(text: string, maxLength: number): string {
           </div>
         </div>
   
-        {/* <div className="mt-8">
+        <div className="mt-8">
           <CategoryAddressCard />
-        </div> */}
+        </div>
       </div>
     );
   }

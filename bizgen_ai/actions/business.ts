@@ -30,15 +30,16 @@ const checkOwernship = async (businessId: string) => {
      }
  
      // check if the business belongs to the user
-     if (business.userEmail !== userEmail) {
-       throw new Error("You are not authorized to perform this action");
-     }
-     return true;
+    //  if (business.userEmail !== userEmail) {
+    //    throw new Error("You are not authorized to perform this action");
+    //  }
+    //  return true;
  
      // allow access if the user is an admin or the owner of the business
      if (isAdmin || business.userEmail === userEmail) {
        return true;
      }
+     
    } catch (err: any) {
      throw new Error(err);
    }
@@ -166,6 +167,82 @@ export const getBusinessBySlugFromDb = async (slug: string) => {
     await db();
     const business = await Business.findOne({ slug });
     return JSON.parse(JSON.stringify(business));
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const searchBusinessesFromDb = async (query: string) => {
+
+  try {
+    await db();
+
+    // create regex pattern for partial text search
+    const regexQuery = new RegExp(query, "i"); // i for case-insensitive
+
+    const businesses = await Business.find({
+      $or: [
+        { name: regexQuery },
+        { category: regexQuery },
+        { address: regexQuery },
+      ],
+      published: true,
+    });
+
+    return JSON.parse(JSON.stringify(businesses));
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const getUniqueCategoriesAndAddresses = async () => {
+  try {
+    await db();
+    const aggregationPipeline = [
+      {
+        $group: {
+          _id: null,
+          uniqueCategories: { $addToSet: { $toLower: "$category" } },
+          uniqueAddresses: { $addToSet: { $toLower: "$address" } },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          uniqueCategories: 1,
+          uniqueAddresses: 1,
+        },
+      },
+    ];
+
+    const result = await Business.aggregate(aggregationPipeline);
+
+    if (result.length > 0) {
+      return {
+        uniqueCategories: result[0].uniqueCategories,
+        uniqueAddresses: result[0].uniqueAddresses,
+      };
+    } else {
+      return { uniqueCategories: [], uniqueAddresses: [] };
+    }
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const getAllBusinessesFromDb = async (page: number, limit: number) => {
+  try {
+    await db();
+
+    const [businesses, totalCount] = await Promise.all([
+      Business.find()
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit),
+      Business.countDocuments(),
+    ]);
+
+    return { businesses: JSON.parse(JSON.stringify(businesses)), totalCount };
   } catch (err: any) {
     throw new Error(err);
   }

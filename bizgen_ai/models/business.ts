@@ -19,6 +19,10 @@ const BusinessSchema = new mongoose.Schema(
  { timestamps: true }
 );
 
+// create a text index on category, name and address fields
+BusinessSchema.index({ category: "text", name: "text", address: "text" });
+
+
 const Business = mongoose.models.Business || mongoose.model("Business", BusinessSchema);
 
 export default Business;
