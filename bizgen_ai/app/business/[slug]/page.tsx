@@ -23,9 +23,9 @@ function stripHtmlAndTruncate(text: string, maxLength: number): string {
       : cleanedText;
   }
   
-  export async function generateMetadata({ params }:{ params: { slug: string } }
-  ): Promise<Metadata> {
-    const business = await getBusinessBySlugFromDb(params.slug);
+  export async function generateMetadata({ params }:{ params: Promise<{ slug: string }> }
+  ){
+    const business = await getBusinessBySlugFromDb((await params).slug);
     const imageUrl = business?.logo || "/logo.png";
     const shortDescription = stripHtmlAndTruncate(business?.description, 160);
   
@@ -33,13 +33,13 @@ function stripHtmlAndTruncate(text: string, maxLength: number): string {
       title: `${business?.name} - ${business?.category}`,
       description: shortDescription,
       alternates: {
-        canonical: `${process.env.DOMAIN}/business/${params?.slug}`,
+        canonical: `${process.env.DOMAIN}/business/${(await params)?.slug}`,
       },
       openGraph: {
         title: `${business?.name} - ${business?.category}`,
         description: shortDescription,
         type: "website",
-        url: `${process.env.DOMAIN}/business/${params?.slug}`,
+        url: `${process.env.DOMAIN}/business/${(await params)?.slug}`,
         siteName: process.env.APP_NAME,
         images: [
           {
@@ -52,9 +52,9 @@ function stripHtmlAndTruncate(text: string, maxLength: number): string {
     };
   }
   
-  export default async function BusinessPage({ params }: { params: { slug: string } }
-  ): Promise<Metadata> {
-    const business = await getBusinessBySlugFromDb(params.slug);
+  export default async function BusinessPage({ params }: { params: Promise<{ slug: string }> }
+  ) {
+    const business = await getBusinessBySlugFromDb((await params).slug);
   
     return (
       <div className="mx-1 md:m-20">
