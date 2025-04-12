@@ -46,11 +46,11 @@ const inputFields: InputField[] = [
       label: "Opening Hours (e.g. Mon-Fri 9am-5pm)",
       type: "text",
    },
-   {
-      name: "abn",
-      label: "ABN",
-      type: "number",
-   },
+   // {
+   //    name: "abn",
+   //    label: "ABN",
+   //    type: "number",
+   // },
    {
       name: "logo",
       label: "Logo (Upload square image)",

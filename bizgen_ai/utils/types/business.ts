@@ -11,7 +11,7 @@ export interface BusinessState {
     website: string;
     hours: string;
     logo: string;
-    abn: string;
+    //abn: string;
     slug: string;
     published?: boolean;
     createdAt?: string;
