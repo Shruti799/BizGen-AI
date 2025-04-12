@@ -12,7 +12,6 @@ const BusinessSchema = new mongoose.Schema(
     website: String,
     hours: String,
     logo: String,
-    //abn: String,
     slug: { type: String, required: true, lowercase: true, index: true },
     published: { type: Boolean, default: true },
  },

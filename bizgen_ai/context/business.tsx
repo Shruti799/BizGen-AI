@@ -29,7 +29,6 @@ const initialState: BusinessState = {
     website: "",
     hours: "",
     logo: "",
-    //abn: "",
     slug: "",
     createdAt: "",
     updatedAt: "",
